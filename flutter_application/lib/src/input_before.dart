@@ -32,16 +32,16 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181112),
+      backgroundColor: const Color(0xFF1A1A1A), // ダークグレーの背景
       appBar: AppBar(
-        backgroundColor: const Color(0xFF181112),
+        backgroundColor: const Color(0xFF000000), // 黒
         title: const Text(
-          'Pre-Work',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          '入力画面',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,106 +49,46 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 16),
             // Energy Drink TextField
             const Text(
-              'Energy Drink',
+              'エナジードリンク名',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  energyDrink = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Select',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
-                filled: true,
-                fillColor: const Color(0xFF39282B),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              ),
-              style: const TextStyle(color: Colors.white),
+            _buildTextField(
+              hint: '選択',
+              onChanged: (value) => setState(() => energyDrink = value),
             ),
             const SizedBox(height: 8),
             // Wake up time TextField
             const Text(
-              'Wake up time',
+              '起床時間',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  wakeUpTime = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
-                filled: true,
-                fillColor: const Color(0xFF39282B),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              ),
-              style: const TextStyle(color: Colors.white),
+            _buildTextField(
+              hint: '入力',
+              onChanged: (value) => setState(() => wakeUpTime = value),
             ),
             const SizedBox(height: 8),
             // Current time TextField
             const Text(
-              'Current time',
+              '現在時刻',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  currentTime = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
-                filled: true,
-                fillColor: const Color(0xFF39282B),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              ),
-              style: const TextStyle(color: Colors.white),
+            _buildTextField(
+              hint: '入力',
+              onChanged: (value) => setState(() => currentTime = value),
             ),
             const SizedBox(height: 8),
             // Last night sleep duration TextField
             const Text(
-              'Last night sleep duration',
+              '前日の睡眠時間',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  lastNightSleepDuration = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
-                filled: true,
-                fillColor: const Color(0xFF39282B),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              ),
-              style: const TextStyle(color: Colors.white),
+            _buildTextField(
+              hint: '入力',
+              onChanged: (value) => setState(() => lastNightSleepDuration = value),
             ),
             const SizedBox(height: 24),
             Row(
@@ -157,11 +97,12 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE30D38),
+                      backgroundColor: const Color(0xFFE30D38), // 赤色
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      elevation: 5, // シャドウ効果
                     ),
                     onPressed: () {
                       // InputData インスタンスを作成し、次の画面に渡す
@@ -177,15 +118,33 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                         MaterialPageRoute(builder: (context) => FocusScreen(data: inputData)),
                       );
                     },
-                    child: const Text('Start Focus Session'),
+                    child: const Text('スタート', style: TextStyle(color: Colors.white)),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 18),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField({required String hint, required ValueChanged<String> onChanged}) {
+    return TextField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: const TextStyle(color: Color(0xFFB3B3B3)), // 薄いグレー
+        filled: true,
+        fillColor: const Color(0xFF2C2C2C), // ダークグレー
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: const Color(0xFFFFFFFF), width: 1), // 白のボーダー
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      ),
+      style: const TextStyle(color: Colors.white),
     );
   }
 }
