@@ -39,6 +39,20 @@ class TMP extends StatelessWidget {
     }
   }
 
+  // APIからデータを取得する関数
+  Future<Map<String, dynamic>> fetchResult3() async {
+    final url = Uri.parse('http://10.0.2.2:8000/result_count'); // APIエンドポイントを指定
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      // サーバーが200 OKを返した場合、JSONを解析
+      return jsonDecode(response.body);
+    } else {
+      // サーバーが200 OK以外のレスポンスを返した場合、例外をスロー
+      throw Exception('データの読み込みに失敗しました');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,11 +169,12 @@ class TMP extends StatelessWidget {
                     // APIからデータを取得
                     final resultData = await fetchResult();
                     final resultData2 = await fetchResult2();
+                    final resultData3 = await fetchResult3();
                     // DashboardScreenに遷移し、取得したデータを渡す
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DashboardScreen(data: resultData, data2: resultData2),
+                        builder: (context) => DashboardScreen(data: resultData, data2: resultData2, data3: resultData3),
                       ),
                     );
                   } catch (e) {

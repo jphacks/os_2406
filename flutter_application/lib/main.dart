@@ -37,6 +37,18 @@ class MyApp extends StatelessWidget {
     }
   }
 
+  // 新しいAPIからデータを取得する関数
+  Future<Map<String, dynamic>> fetchResult3() async {
+    final url = Uri.parse('http://10.0.2.2:8000/result_count'); // APIエンドポイントを指定
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('データの読み込みに失敗しました');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,9 +69,21 @@ class MyApp extends StatelessWidget {
                 } else if (snapshot2.hasError) {
                   return Center(child: Text('エラー: ${snapshot2.error}'));
                 } else {
-                  return DashboardScreen(
-                    data: snapshot1.data!,
-                    data2: snapshot2.data!,
+                  return FutureBuilder<Map<String, dynamic>>(
+                    future: fetchResult3(),
+                    builder: (context, snapshot3) {
+                      if (snapshot3.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot3.hasError) {
+                        return Center(child: Text('エラー: ${snapshot3.error}'));
+                      } else {
+                        return DashboardScreen(
+                          data: snapshot1.data!,
+                          data2: snapshot2.data!,
+                          data3: snapshot3.data!,
+                        );
+                      }
+                    },
                   );
                 }
               },
@@ -75,8 +99,9 @@ class MyApp extends StatelessWidget {
 class DashboardScreen extends StatelessWidget {
   final Map<String, dynamic> data;
   final Map<String, dynamic> data2;
+  final Map<String, dynamic> data3;
 
-  const DashboardScreen({Key? key, required this.data, required this.data2}) : super(key: key);
+  const DashboardScreen({Key? key, required this.data, required this.data2, required this.data3}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +153,7 @@ class DashboardScreen extends StatelessWidget {
             Container(
               height: 300,
               child: SfCartesianChart(
-                title: ChartTitle(text: '飲料別の集中度合い'),
+                title: ChartTitle(text: '飲料別の摂取本数'),
                 legend: Legend(isVisible: true),
                 primaryXAxis: CategoryAxis(),
                 primaryYAxis: NumericAxis(),
@@ -137,7 +162,7 @@ class DashboardScreen extends StatelessWidget {
                     dataSource: getFocusData(),
                     xValueMapper: (FocusData data, _) => data.drink,
                     yValueMapper: (FocusData data, _) => data.score,
-                    name: '集中度合い',
+                    name: '摂取本数',
                     dataLabelSettings: DataLabelSettings(isVisible: true),
                     color: Colors.white,
                   ),
@@ -198,13 +223,14 @@ class DashboardScreen extends StatelessWidget {
 
   // 集中度合いデータを取得するメソッド
   List<FocusData> getFocusData() {
-    return [
-      FocusData('Red Bull', 80),
-      FocusData('Monster', 70),
-      FocusData('Bang', 85),
-      FocusData('High Brew', 60),
-      FocusData('Rockstar', 75),
-    ];
+    List<FocusData> FocusDataList = [];
+
+    data3.forEach((key, value) {
+      // keyを睡眠時間、valueの最初の要素を集中度合いとして使用し、doubleに変換
+      FocusDataList.add(FocusData(key, value.first.toDouble()));
+    });
+
+    return FocusDataList;
   }
 
   // 睡眠時間と集中度合いデータを取得するメソッド

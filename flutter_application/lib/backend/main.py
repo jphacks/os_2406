@@ -76,3 +76,20 @@ async def get_averages():
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+@app.get("/result_count")
+async def get_counts():
+    try:
+        # CSVファイルを読み込む
+        df = pd.read_csv('./data/input.csv', header=None)
+        
+        # 1列目の値を数えて辞書形式に変換
+        counts = df[0].value_counts().to_dict()
+
+        # 辞書をJSON形式に合わせてフォーマット
+        result = {key: [value] for key, value in counts.items()}
+
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
