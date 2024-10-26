@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'today_result.dart';
 import 'input_before.dart';
 
-class InputEvaluate extends StatelessWidget {
-  final InputData data; // InputData型のデータを受け取る
+class InputEvaluate extends StatefulWidget {
+  final InputData data;
 
-  // コンストラクタでdataを受け取る
   const InputEvaluate({Key? key, required this.data}) : super(key: key);
+
+  @override
+  _InputEvaluateState createState() => _InputEvaluateState();
+}
+
+class _InputEvaluateState extends State<InputEvaluate> {
+  int? _focusedRating; // ラジオボタンの値
+  int? _sleepyRating;  // ラジオボタンの値
+
+  // FastAPIからデータを取得するメソッド
+  Future<void> sendData() async {
+    final url = Uri.parse('http://10.0.2.2:8000/submit'); // 適切なAPIエンドポイントに変更
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'energyDrink': widget.data.energyDrink,
+        'wakeUpTime': widget.data.wakeUpTime,
+        'currentTime': widget.data.currentTime,
+        'sleepDuration': widget.data.sleepDuration,
+        'focusedRating': _focusedRating,
+        'sleepyRating': _sleepyRating,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to submit data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +58,8 @@ class InputEvaluate extends StatelessWidget {
                     Expanded(
                       child: Center(
                         child: Text(
-                          data.energyDrink,
-                          style: TextStyle(
+                          widget.data.energyDrink,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -49,7 +79,14 @@ class InputEvaluate extends StatelessWidget {
                   ),
                 ),
               ),
-              const RatingRow(),
+              RatingRow(
+                groupValue: _focusedRating, // 選択されている値を渡す
+                onChanged: (value) {
+                  setState(() {
+                    _focusedRating = value; // 選択された値を更新
+                  });
+                },
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
@@ -60,20 +97,33 @@ class InputEvaluate extends StatelessWidget {
                   ),
                 ),
               ),
-              const RatingRow(),
+              RatingRow(
+                groupValue: _sleepyRating, // 選択されている値を渡す
+                onChanged: (value) {
+                  setState(() {
+                    _sleepyRating = value; // 選択された値を更新
+                  });
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(84, 40),
-                    // primary: const Color(0xFF1980E6),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    try {
+                      await sendData(); // データを送信
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const TMP()),
+                        MaterialPageRoute(
+                          builder: (context) => TMP(result: 'Success', data: widget.data),
+                        ),
                       );
-                    },
+                    } catch (e) {
+                      print("Error: $e");
+                    }
+                  },
                   child: const Text(
                     'Submit',
                     style: TextStyle(
@@ -91,7 +141,10 @@ class InputEvaluate extends StatelessWidget {
 }
 
 class RatingRow extends StatelessWidget {
-  const RatingRow({super.key});
+  final ValueChanged<int?> onChanged;
+  final int? groupValue; // 選択されている値を保持
+
+  const RatingRow({Key? key, required this.onChanged, this.groupValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,19 +154,12 @@ class RatingRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(
           5,
-          (index) => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF0F2F4),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              (index + 1).toString(),
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          (index) => Radio<int>(
+            value: index + 1,
+            groupValue: groupValue, // 選択されている値をここで使用
+            onChanged: (value) {
+              onChanged(value); // 親ウィジェットに値を渡す
+            },
           ),
         ),
       ),
