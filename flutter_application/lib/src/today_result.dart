@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import 'input_eveluate.dart';
+import 'input_before.dart';
 
 
 class TMP extends StatelessWidget {
-  const TMP({super.key});
+  final String result;
+  final InputData data;
+  const TMP({Key? key, required this.result, required this.data,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
