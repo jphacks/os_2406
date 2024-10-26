@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import 'input_eveluate.dart';
+import 'input_before.dart';
 
 
 class TMP extends StatelessWidget {
-  const TMP({super.key});
+  final String result;
+  final InputData data;
+  const TMP({Key? key, required this.result, required this.data,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +15,8 @@ class TMP extends StatelessWidget {
       backgroundColor: const Color(0xFF181112),
       appBar: AppBar(
         backgroundColor: const Color(0xFF181112),
-        title: const Text(
-          'TodayResult',
+        title: Text(
+          result,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -28,10 +32,10 @@ class TMP extends StatelessWidget {
                   decoration: const BoxDecoration(
                     color: Color(0xFF181112),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'TodayResult',
-                      style: TextStyle(
+                      data.sleepDuration,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
