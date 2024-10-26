@@ -8,83 +8,131 @@ class TMP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181112),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF181112),
         title: const Text(
-          'TodayResult',
+          '登録画面',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF181112),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'TodayResult',
+            Expanded(
+              child: ListView(
+                children: const <Widget>[
+                ListTile(
+                  title: Text(
+                    '日付',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  "Today Result",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "Today Result",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: NetworkImage(
-                          "https://cdn.usegalileo.ai/sdxl10/06319e20-6369-40b9-85b7-7116bc3651df.png"),
-                      fit: BoxFit.cover,
+                    trailing: Text(
+                      '2024年10月26日(Sat)',
+                      style: TextStyle(
+                        fontSize:22,                      
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                ElevatedButton(
-                onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const DashboardScreen()),
-                      );
-                    },
-                child: const Text('finish'),
-                )
+                ListTile(
+                  title: Text(
+                    'エナジードリンク名',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                    trailing: Text(
+                      'Red Bull',
+                      style: TextStyle(
+                        fontSize:22,                      
+                    ),
+                  ),
+                ),                
+                ListTile(
+                  title: Text(
+                    '飲んだ本数',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                    trailing: Text(
+                      '2',
+                      style: TextStyle(
+                        fontSize:22,                      
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    '作業時間',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                    trailing: Text(
+                      '3',
+                      style: TextStyle(
+                        fontSize:22,                      
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    '前日の睡眠時間',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                    trailing: Text(
+                      '8.5',
+                      style: TextStyle(
+                        fontSize:22,                      
+                    ),
+                  ),
+                ),                
+                ListTile(
+                  title: Text(
+                    '起床からの時間',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                    trailing: Text(
+                      '8',
+                      style: TextStyle(
+                        fontSize:22,                      
+                    ),
+                  ),
+                ),                
               ],
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(84, 40),
+                // primary: const Color(0xFF1980E6),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                );
+              },
+              child: const Text(
+                '送信',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+ }
 }
