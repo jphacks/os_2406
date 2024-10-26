@@ -1,22 +1,49 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'input_eveluate.dart';
 import 'input_before.dart';
 
-
-class FocusScreen extends StatelessWidget {
+class FocusScreen extends StatefulWidget {
   final InputData data;
 
   FocusScreen({Key? key, required this.data}) : super(key: key);
 
   @override
+  _FocusScreenState createState() => _FocusScreenState();
+}
+
+class _FocusScreenState extends State<FocusScreen> {
+  late Timer _timer;
+  int _elapsedSeconds = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _elapsedSeconds++;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // 受け取った値をコンソールに出力する
+    final hours = _elapsedSeconds ~/ 3600; // 3600秒ごとに1時間
+    final minutes = (_elapsedSeconds % 3600) ~/ 60; // 60秒ごとに1分
+    final seconds = _elapsedSeconds % 60; // 残りの秒数
+
     return Scaffold(
       backgroundColor: const Color(0xFF181112),
       appBar: AppBar(
         backgroundColor: const Color(0xFF181112),
         title: Text(
-          data.sleepDuration,
+          widget.data.sleepDuration,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -34,7 +61,7 @@ class FocusScreen extends StatelessWidget {
                   ),
                   child: const Center(
                     child: Text(
-                      'Focus',
+                      '集中モード',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -45,7 +72,7 @@ class FocusScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  "You're in Focus mode.",
+                  "あなたは集中モードに入っています。",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -53,14 +80,13 @@ class FocusScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  "We'll be back after your session.",
-                  style: TextStyle(
+                const SizedBox(height: 16),
+                Text(
+                  "経過時間: ${hours}時間 ${minutes}分 ${seconds}秒",
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -76,14 +102,14 @@ class FocusScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => InputEvaluate(data: data)),
-                      );
-                    },
-                child: const Text('next'),
-                )
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => InputEvaluate(data: widget.data)),
+                    );
+                  },
+                  child: const Text('次へ'),
+                ),
               ],
             ),
           ],
