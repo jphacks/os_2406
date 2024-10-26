@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart'; // Syncfusionのインポート
 import 'src/input_before.dart'; // 遷移先の画面ファイルをインポート
 
 void main() {
@@ -23,9 +24,9 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181112),
+      backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF181112),
+        backgroundColor: const Color(0xFF000000),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {}, // Back button functionality
@@ -76,6 +77,26 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
           ),
+          // ここからグラフを追加
+          Container(
+            height: 300, // グラフの高さ
+            child: SfCartesianChart(
+              title: ChartTitle(text: 'Drink Consumption Over Time'),
+              legend: Legend(isVisible: true),
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: NumericAxis(),
+              series: <CartesianSeries>[
+                LineSeries<ChartData, String>(
+                  dataSource: getChartData(),
+                  xValueMapper: (ChartData data, _) => data.month,
+                  yValueMapper: (ChartData data, _) => data.consumption,
+                  name: 'Consumption',
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+          // ここまでグラフを追加
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -87,9 +108,28 @@ class DashboardScreen extends StatelessWidget {
         },
         backgroundColor: Colors.pink,
         child: const Icon(Icons.add),
-      ),  
+      ),
     );
   }
+
+  // グラフデータを取得するメソッド
+  List<ChartData> getChartData() {
+    return [
+      ChartData('Jan', 20),
+      ChartData('Feb', 35),
+      ChartData('Mar', 40),
+      ChartData('Apr', 25),
+      ChartData('May', 50),
+    ];
+  }
+}
+
+// データクラス
+class ChartData {
+  final String month;
+  final double consumption;
+
+  ChartData(this.month, this.consumption);
 }
 
 class StatusCard extends StatelessWidget {
