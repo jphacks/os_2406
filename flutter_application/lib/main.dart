@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart'; // Syncfusionのインポート
-import 'src/input_before.dart'; // 遷移先の画面ファイルをインポート
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,10 +26,10 @@ class DashboardScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
         backgroundColor: const Color(0xFF000000),
-        elevation: 0, // 影を消す
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {}, // 戻るボタンの機能
+          onPressed: () {},
         ),
         title: const Text(
           'ダッシュボード',
@@ -38,72 +37,86 @@ class DashboardScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            _buildGraphCard(
+              title: '飲料別の摂取',
+              series: ColumnSeries<DrinkData, String>(
+                dataSource: getDrinkData(),
+                xValueMapper: (DrinkData data, _) => data.drink,
+                yValueMapper: (DrinkData data, _) => data.consumption,
+                name: '摂取量',
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+                color: Colors.blueAccent,
+              ),
             ),
-          ),
-          // ここから新しい飲料摂取の相関グラフを追加
-          Container(
-            height: 300, // グラフの高さ
-            child: SfCartesianChart(
-              title: ChartTitle(text: '飲料別の摂取量'),
-              legend: Legend(isVisible: true),
-              primaryXAxis: CategoryAxis(),
-              primaryYAxis: NumericAxis(),
-              series: <CartesianSeries>[
-                ColumnSeries<DrinkData, String>(
-                  dataSource: getDrinkData(),
-                  xValueMapper: (DrinkData data, _) => data.drink,
-                  yValueMapper: (DrinkData data, _) => data.consumption,
-                  name: '摂取量',
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ],
+            _buildGraphCard(
+              title: '飲料別のスコア',
+              series: ColumnSeries<FocusData, String>(
+                dataSource: getFocusData(),
+                xValueMapper: (FocusData data, _) => data.drink,
+                yValueMapper: (FocusData data, _) => data.score,
+                name: '集中度合い',
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+                color: Colors.greenAccent,
+              ),
             ),
-          ),
-          // ここまで新しい飲料摂取の相関グラフを追加
-
-          // ここから集中度合いの棒グラフを追加
-          Container(
-            height: 300, // グラフの高さ
-            child: SfCartesianChart(
-              title: ChartTitle(text: '飲料別の集中度合い'),
-              legend: Legend(isVisible: true),
-              primaryXAxis: CategoryAxis(),
-              primaryYAxis: NumericAxis(),
-              series: <CartesianSeries>[
-                ColumnSeries<FocusData, String>(
-                  dataSource: getFocusData(),
-                  xValueMapper: (FocusData data, _) => data.drink,
-                  yValueMapper: (FocusData data, _) => data.score,
-                  name: '集中度合い',
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ],
+            _buildGraphCard(
+              title: '前日の睡眠時間と集中度合い',
+              series: ColumnSeries<SleepFocusData, String>(
+                dataSource: getSleepFocusData(),
+                xValueMapper: (SleepFocusData data, _) => data.sleepHours,
+                yValueMapper: (SleepFocusData data, _) => data.focusScore,
+                name: '集中度合い',
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+                color: Colors.purpleAccent,
+              ),
             ),
-          ),
-          // ここまで集中度合いの棒グラフを追加
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PreWorkScreen()),
-          );
-        },
+        onPressed: () {},
         backgroundColor: Colors.pink,
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  // 新しい飲料摂取データを取得するメソッド
-  List<DrinkData> getDrinkData() {
+  Widget _buildGraphCard({required String title, required CartesianSeries series}) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      color: const Color(0xFF1c1c1c),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 200,
+              child: SfCartesianChart(
+                primaryXAxis: CategoryAxis(),
+                primaryYAxis: NumericAxis(),
+                series: <CartesianSeries>[series],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static List<DrinkData> getDrinkData() {
     return [
       DrinkData('Red Bull', 20),
       DrinkData('Monster', 35),
@@ -113,8 +126,7 @@ class DashboardScreen extends StatelessWidget {
     ];
   }
 
-  // 新しい集中度合いデータを取得するメソッド
-  List<FocusData> getFocusData() {
+  static List<FocusData> getFocusData() {
     return [
       FocusData('Red Bull', 80),
       FocusData('Monster', 70),
@@ -123,9 +135,20 @@ class DashboardScreen extends StatelessWidget {
       FocusData('Rockstar', 75),
     ];
   }
+
+  static List<SleepFocusData> getSleepFocusData() {
+    return [
+      SleepFocusData('1時間', 40),
+      SleepFocusData('2時間', 50),
+      SleepFocusData('3時間', 60),
+      SleepFocusData('4時間', 70),
+      SleepFocusData('5時間', 80),
+      SleepFocusData('6時間', 90),
+      SleepFocusData('7時間以上', 95),
+    ];
+  }
 }
 
-// データクラス
 class DrinkData {
   final String drink;
   final double consumption;
@@ -140,72 +163,9 @@ class FocusData {
   FocusData(this.drink, this.score);
 }
 
-class StatusCard extends StatelessWidget {
-  final String title;
-  final String status;
-  final String percent;
-  final Color percentColor;
+class SleepFocusData {
+  final String sleepHours;
+  final double focusScore;
 
-  const StatusCard({
-    required this.title,
-    required this.status,
-    required this.percent,
-    required this.percentColor,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 158,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF543b40)),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 16)),
-          const SizedBox(height: 4),
-          Text(status, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text(percent, style: TextStyle(color: percentColor, fontSize: 16)),
-        ],
-      ),
-    );
-  }
-}
-
-class DrinkProgress extends StatelessWidget {
-  final String title;
-  final double percent;
-
-  const DrinkProgress({
-    required this.title,
-    required this.percent,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(title, style: const TextStyle(color: Color(0xFFba9ca2), fontSize: 13, fontWeight: FontWeight.bold)),
-            const SizedBox(width: 8),
-            Expanded(
-              child: LinearProgressIndicator(
-                value: percent,
-                backgroundColor: const Color(0xFF39282b),
-                color: const Color(0xFFba9ca2),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 6),
-      ],
-    );
-  }
+  SleepFocusData(this.sleepHours, this.focusScore);
 }
