@@ -24,10 +24,18 @@ class PreWorkScreen extends StatefulWidget {
 }
 
 class _PreWorkScreenState extends State<PreWorkScreen> {
-  String energyDrink = '';
+  String selectedEnergyDrink = '';
   String wakeUpTime = '';
   String currentTime = '';
   String lastNightSleepDuration = '';
+
+  final List<String> energyDrinkOptions = [//ここにエナジードリンクの名前リストを作る
+    'Red Bull',
+    'MONSTER',
+    'ZONE',
+    'SURVIVOR!',
+    'その他',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +55,13 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
-            // Energy Drink TextField
+            // Energy Drink Dropdown
             const Text(
               'エナジードリンク名',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
-            _buildTextField(
-              hint: '選択',
-              onChanged: (value) => setState(() => energyDrink = value),
-            ),
+            _buildEnergyDrinkDropdown(),
             const SizedBox(height: 8),
             // Wake up time TextField
             const Text(
@@ -107,7 +112,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                     onPressed: () {
                       // InputData インスタンスを作成し、次の画面に渡す
                       InputData inputData = InputData(
-                        energyDrink: energyDrink,
+                        energyDrink: selectedEnergyDrink,
                         wakeUpTime: wakeUpTime,
                         currentTime: currentTime,
                         sleepDuration: lastNightSleepDuration,
@@ -127,6 +132,26 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildEnergyDrinkDropdown() {
+    return DropdownButton<String>(
+      value: selectedEnergyDrink.isEmpty ? null : selectedEnergyDrink,
+      hint: const Text('選択', style: TextStyle(color: Color(0xFFB3B3B3))),
+      dropdownColor: const Color(0xFF2C2C2C),
+      isExpanded: true,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedEnergyDrink = newValue ?? '';
+        });
+      },
+      items: energyDrinkOptions.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value, style: const TextStyle(color: Colors.white)),
+        );
+      }).toList(),
     );
   }
 
