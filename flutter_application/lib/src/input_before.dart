@@ -32,9 +32,9 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181112),
+      backgroundColor: const Color(0xFF000000), // 背景色を黒に
       appBar: AppBar(
-        backgroundColor: const Color(0xFF181112),
+        backgroundColor: const Color(0xFF000000), // ダークグレー
         title: const Text(
           '入力画面',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -61,12 +61,12 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
               },
               decoration: InputDecoration(
                 hintText: '選択',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                 filled: true,
-                fillColor: const Color(0xFF39282B),
+                fillColor: const Color(0xFF2C2C2C), // ダークグレー
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(color: const Color(0xFFFFFFFF), width: 1), // 薄いグレーのボーダー
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
@@ -87,12 +87,12 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
               },
               decoration: InputDecoration(
                 hintText: '入力',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                 filled: true,
-                fillColor: const Color(0xFF39282B),
+                fillColor: const Color(0xFF2C2C2C), // ダークグレー
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(color: const Color(0xFF3E3E3E), width: 1), // 薄いグレーのボーダー
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
@@ -113,12 +113,12 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
               },
               decoration: InputDecoration(
                 hintText: '入力',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                 filled: true,
-                fillColor: const Color(0xFF39282B),
+                fillColor: const Color(0xFF2C2C2C), // ダークグレー
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(color: const Color(0xFF3E3E3E), width: 1), // 薄いグレーのボーダー
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
@@ -139,12 +139,12 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
               },
               decoration: InputDecoration(
                 hintText: '入力',
-                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                 filled: true,
-                fillColor: const Color(0xFF39282B),
+                fillColor: const Color(0xFF2C2C2C), // ダークグレー
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(color: const Color(0xFF3E3E3E), width: 1), // 薄いグレーのボーダー
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
@@ -157,7 +157,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE30D38),
+                      backgroundColor: const Color(0xFFE30D38), // 赤色
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -177,7 +177,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                         MaterialPageRoute(builder: (context) => FocusScreen(data: inputData)),
                       );
                     },
-                    child: const Text('スタート'),
+                    child: const Text('スタート', style: TextStyle(color: Colors.white)), // テキスト色を白に
                   ),
                 ),
                 const SizedBox(width: 18),
