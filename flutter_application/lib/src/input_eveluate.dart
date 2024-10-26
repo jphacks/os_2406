@@ -50,19 +50,19 @@ class _InputEvaluateState extends State<InputEvaluate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212), // 背景を黒に設定
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         title: Text(widget.data.energyDrink, style: const TextStyle(color: Colors.white)),
-        backgroundColor: const Color(0xFF1F1F1F), // AppBarの色を変更
+        backgroundColor: const Color(0xFF1F1F1F),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), // アイコンを白に
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // 戻るボタン
+            Navigator.pop(context);
           },
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,11 +70,11 @@ class _InputEvaluateState extends State<InputEvaluate> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  '仕事後、どれくらい集中できましたか？', // 質問文
+                  '仕事後、どれくらい集中できましたか？（1: 全く集中できない、5: 非常に集中できた）',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 24, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // テキストを白に
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -82,18 +82,18 @@ class _InputEvaluateState extends State<InputEvaluate> {
                 groupValue: _focusedRating,
                 onChanged: (value) {
                   setState(() {
-                    _focusedRating = value; // 選択された値を更新
+                    _focusedRating = value;
                   });
                 },
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  '今、どれくらい眠いですか？', // 質問文
+                  '今、どれくらい眠いですか？（1: 全く眠くない、5: 非常に眠い）',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 24, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // テキストを白に
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -101,40 +101,40 @@ class _InputEvaluateState extends State<InputEvaluate> {
                 groupValue: _sleepyRating,
                 onChanged: (value) {
                   setState(() {
-                    _sleepyRating = value; // 選択された値を更新
+                    _sleepyRating = value;
                   });
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(const Size(84, 40)),
-                    backgroundColor: MaterialStateProperty.all(const Color(0xFF1F1F1F)), // ダークグレーのボタン
-                  ),
-                  onPressed: () async {
-                    try {
-                      await sendData(); // データを送信
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TMP(result: '成功', data: widget.data),
-                        ),
-                      );
-                    } catch (e) {
-                      print("Error: $e");
-                    }
-                  },
-                  child: const Text(
-                    '送信',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white, // テキストを白に
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                minimumSize: MaterialStateProperty.all(const Size(84, 40)),
+                backgroundColor: MaterialStateProperty.all(Colors.blue), // 青色のボタン
+              ),
+              onPressed: () async {
+                try {
+                  await sendData();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TMP(result: '成功', data: widget.data),
                     ),
-                  ),
+                  );
+                } catch (e) {
+                  print("Error: $e");
+                }
+              },
+              child: const Text(
+                '送信',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -144,25 +144,35 @@ class _InputEvaluateState extends State<InputEvaluate> {
 
 class RatingRow extends StatelessWidget {
   final ValueChanged<int?> onChanged;
-  final int? groupValue; // 選択されている値を保持
+  final int? groupValue;
 
   const RatingRow({Key? key, required this.onChanged, this.groupValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<String> labels = ['1', '2', '3', '4', '5'];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(
           5,
-              (index) => Radio<int>(
-            value: index + 1,
-            groupValue: groupValue, // 選択されている値をここで使用
-            onChanged: (value) {
-              onChanged(value); // 親ウィジェットに値を渡す
-            },
-            activeColor: Colors.blueAccent, // 選択された時の色を設定
+              (index) => Column(
+            children: [
+              Radio<int>(
+                value: index + 1,
+                groupValue: groupValue,
+                onChanged: (value) {
+                  onChanged(value);
+                },
+                activeColor: Colors.blueAccent,
+              ),
+              Text(
+                labels[index],
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         ),
       ),
