@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'today_result.dart';
+import 'input_before.dart';
 
 class InputEvaluate extends StatelessWidget {
-  const InputEvaluate({super.key});
+  final InputData data; // InputData型のデータを受け取る
+
+  // コンストラクタでdataを受け取る
+  const InputEvaluate({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +25,10 @@ class InputEvaluate extends StatelessWidget {
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {},
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text(
-                          'Rate your focus and sleepiness',
+                          data.energyDrink,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

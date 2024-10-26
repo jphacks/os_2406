@@ -82,7 +82,7 @@ class DashboardScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PreWorkScreen()),
+            MaterialPageRoute(builder: (context) => PreWorkScreen()),
           );
         },
         backgroundColor: Colors.pink,

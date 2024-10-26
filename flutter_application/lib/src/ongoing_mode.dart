@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'input_eveluate.dart';
+import 'input_before.dart';
+
 
 class FocusScreen extends StatelessWidget {
-  const FocusScreen({super.key});
+  final InputData data;
+
+  FocusScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // 受け取った値をコンソールに出力する
     return Scaffold(
       backgroundColor: const Color(0xFF181112),
       appBar: AppBar(
         backgroundColor: const Color(0xFF181112),
-        title: const Text(
-          'Focus',
+        title: Text(
+          data.sleepDuration,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -74,7 +79,7 @@ class FocusScreen extends StatelessWidget {
                 onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const InputEvaluate()),
+                        MaterialPageRoute(builder: (context) => InputEvaluate(data: data)),
                       );
                     },
                 child: const Text('next'),

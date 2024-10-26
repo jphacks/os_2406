@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
 import 'ongoing_mode.dart';
 
+// InputData クラスを定義
+class InputData {
+  final String energyDrink;
+  final String wakeUpTime;
+  final String currentTime;
+  final String sleepDuration;
 
-class PreWorkScreen extends StatelessWidget {
-  const PreWorkScreen({super.key});
-  
+  InputData({
+    required this.energyDrink,
+    required this.wakeUpTime,
+    required this.currentTime,
+    required this.sleepDuration,
+  });
+}
+
+class PreWorkScreen extends StatefulWidget {
+  PreWorkScreen({super.key});
+
+  @override
+  _PreWorkScreenState createState() => _PreWorkScreenState();
+}
+
+class _PreWorkScreenState extends State<PreWorkScreen> {
+  String energyDrink = '';
+  String wakeUpTime = '';
+  String currentTime = '';
+  String lastNightSleepDuration = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +47,109 @@ class PreWorkScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
-            const InputField(label: 'Energy Drink', hintText: 'Select'),
+            // Energy Drink TextField
+            const Text(
+              'Energy Drink',
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
             const SizedBox(height: 8),
-            const InputField(label: 'Wake up time', hintText: 'Enter'),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  energyDrink = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Select',
+                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                filled: true,
+                fillColor: const Color(0xFF39282B),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
             const SizedBox(height: 8),
-            const InputField(label: 'Current time', hintText: 'Enter'),
+            // Wake up time TextField
+            const Text(
+              'Wake up time',
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
             const SizedBox(height: 8),
-            const InputField(label: 'Last night sleep duration', hintText: 'Enter'),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  wakeUpTime = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter',
+                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                filled: true,
+                fillColor: const Color(0xFF39282B),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 8),
+            // Current time TextField
+            const Text(
+              'Current time',
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  currentTime = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter',
+                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                filled: true,
+                fillColor: const Color(0xFF39282B),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 8),
+            // Last night sleep duration TextField
+            const Text(
+              'Last night sleep duration',
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  lastNightSleepDuration = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter',
+                hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
+                filled: true,
+                fillColor: const Color(0xFF39282B),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -44,9 +164,17 @@ class PreWorkScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
+                      // InputData インスタンスを作成し、次の画面に渡す
+                      InputData inputData = InputData(
+                        energyDrink: energyDrink,
+                        wakeUpTime: wakeUpTime,
+                        currentTime: currentTime,
+                        sleepDuration: lastNightSleepDuration,
+                      );
+
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const FocusScreen()),
+                        MaterialPageRoute(builder: (context) => FocusScreen(data: inputData)),
                       );
                     },
                     child: const Text('Start Focus Session'),
@@ -58,41 +186,6 @@ class PreWorkScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class InputField extends StatelessWidget {
-  final String label;
-  final String hintText;
-
-  const InputField({Key? key, required this.label, required this.hintText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
-            filled: true,
-            fillColor: const Color(0xFF39282B),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          ),
-          style: const TextStyle(color: Colors.white),
-        ),
-      ],
     );
   }
 }
