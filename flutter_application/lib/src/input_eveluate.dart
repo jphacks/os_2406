@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 import 'today_result.dart';
 import 'input_before.dart';
 
@@ -19,7 +20,15 @@ class _InputEvaluateState extends State<InputEvaluate> {
 
   // FastAPIからデータを取得するメソッド
   Future<void> sendData() async {
-    final url = Uri.parse('http://10.0.2.2:8000/submit'); // 適切なAPIエンドポイントに変更
+    late Uri url;
+    if (Platform.isAndroid) {
+      url = Uri.parse('http://10.0.2.2:8000/submit');
+    } else if (Platform.isIOS) {
+      url = Uri.parse('http://127.0.0.1:8000/submit');
+    } else {
+      throw Exception('Unsupported platform');
+    }
+    // final url = Uri.parse('http://10.0.2.2:8000/submit'); // 適切なAPIエンドポイントに変更
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
