@@ -25,21 +25,45 @@ class MyApp extends StatelessWidget {
     }
   }
 
+  // 新しいAPIからデータを取得する関数
+  Future<Map<String, dynamic>> fetchResult2() async {
+    final url = Uri.parse('http://10.0.2.2:8000/result_sleep'); // APIエンドポイントを指定
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('データの読み込みに失敗しました');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
       home: FutureBuilder<Map<String, dynamic>>(
-        future: fetchResult(), // APIからのデータ取得を行う
-        builder: (context, snapshot) {
-          // スナップショットの状態に応じたUIを構築
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // ローディング中
-          } else if (snapshot.hasError) {
-            return Center(child: Text('エラー: ${snapshot.error}')); // エラー処理
+        future: fetchResult(),
+        builder: (context, snapshot1) {
+          if (snapshot1.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot1.hasError) {
+            return Center(child: Text('エラー: ${snapshot1.error}'));
           } else {
-            // データが正常に取得できた場合、DashboardScreenを表示
-            return DashboardScreen(data: snapshot.data!); // データを渡す
+            return FutureBuilder<Map<String, dynamic>>(
+              future: fetchResult2(),
+              builder: (context, snapshot2) {
+                if (snapshot2.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot2.hasError) {
+                  return Center(child: Text('エラー: ${snapshot2.error}'));
+                } else {
+                  return DashboardScreen(
+                    data: snapshot1.data!,
+                    data2: snapshot2.data!,
+                  );
+                }
+              },
+            );
           }
         },
       ),
@@ -50,8 +74,9 @@ class MyApp extends StatelessWidget {
 
 class DashboardScreen extends StatelessWidget {
   final Map<String, dynamic> data;
+  final Map<String, dynamic> data2;
 
-  const DashboardScreen({Key? key, required this.data}) : super(key: key);
+  const DashboardScreen({Key? key, required this.data, required this.data2}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +108,7 @@ class DashboardScreen extends StatelessWidget {
             Container(
               height: 300,
               child: SfCartesianChart(
-                title: ChartTitle(text: '飲料別の摂取'),
+                title: ChartTitle(text: '飲料別の総スコア'),
                 legend: Legend(isVisible: true),
                 primaryXAxis: CategoryAxis(),
                 primaryYAxis: NumericAxis(),
@@ -92,7 +117,7 @@ class DashboardScreen extends StatelessWidget {
                     dataSource: getDrinkData(),
                     xValueMapper: (DrinkData data, _) => data.drink,
                     yValueMapper: (DrinkData data, _) => data.consumption,
-                    name: '摂取量',
+                    name: '総スコア',
                     dataLabelSettings: DataLabelSettings(isVisible: true),
                     color: Colors.white,
                   ),
@@ -184,15 +209,14 @@ class DashboardScreen extends StatelessWidget {
 
   // 睡眠時間と集中度合いデータを取得するメソッド
   List<SleepFocusData> getSleepFocusData() {
-    return [
-      SleepFocusData('1時間', 40),
-      SleepFocusData('2時間', 50),
-      SleepFocusData('3時間', 60),
-      SleepFocusData('4時間', 70),
-      SleepFocusData('5時間', 80),
-      SleepFocusData('6時間', 90),
-      SleepFocusData('7時間以上', 95),
-    ];
+    List<SleepFocusData> sleepFocusDataList = [];
+
+    data2.forEach((key, value) {
+      // keyを睡眠時間、valueの最初の要素を集中度合いとして使用
+      sleepFocusDataList.add(SleepFocusData('${key}時間', value.first));
+    });
+
+    return sleepFocusDataList;
   }
 }
 

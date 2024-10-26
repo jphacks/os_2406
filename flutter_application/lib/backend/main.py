@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import pandas as pd
 
@@ -42,16 +42,36 @@ async def get_averages():
         df = pd.read_csv('./data/input.csv', header=None)
 
         # Group by the first column and calculate the mean for the 4th and 5th columns
-        averages = df.groupby(0).agg({3: 'mean', 4: 'mean'}).reset_index()
+        averages = df.groupby(0).agg({4: 'mean', 5: 'mean'}).reset_index()
         print(averages)
         # Prepare the result dictionary
         result = {}
         for index, row in averages.iterrows():
             key = row[0]
-            avg_4th = row[3]
             avg_5th = row[4]
-            average_new = (avg_4th + avg_5th) / 2
+            avg_6th = row[5]
+            average_new = (avg_5th + avg_6th) / 2
             result[key] = [average_new]
+
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/result_sleep")
+async def get_averages():
+    try:
+        # Read the CSV file
+        df = pd.read_csv('./data/input.csv', header=None)
+
+        # Group by the first column and calculate the mean for the 4th and 5th columns
+        averages = df.groupby(3).agg({4: 'mean'}).reset_index()
+        print(averages)
+        # Prepare the result dictionary
+        result = {}
+        for index, row in averages.iterrows():
+            key = row[3]
+            avg_5th = row[4]
+            result[key] = [avg_5th]
 
         return result
     except Exception as e:
