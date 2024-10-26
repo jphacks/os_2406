@@ -90,16 +90,6 @@ class _FocusScreenState extends State<FocusScreen> {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: NetworkImage(
-                          "https://cdn.usegalileo.ai/sdxl10/06319e20-6369-40b9-85b7-7116bc3651df.png"),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
