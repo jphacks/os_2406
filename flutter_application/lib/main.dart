@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart'; // Syncfusionのインポート
 import 'src/input_before.dart'; // 遷移先の画面ファイルをインポート
 
 void main() {
@@ -23,15 +24,15 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181112),
+      backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF181112),
+        backgroundColor: const Color(0xFF000000),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {}, // Back button functionality
+          onPressed: () {}, // 戻るボタンの機能
         ),
         title: const Text(
-          'Dashboard',
+          'ダッシュボード',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -50,18 +51,18 @@ class DashboardScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Post-Drink Correlation',
+                    '飲料摂取の相関',
                     style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Average',
+                    '平均',
                     style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Row(
                     children: [
-                      Text('1 month', style: TextStyle(color: Color(0xFFba9ca2))),
+                      Text('1ヶ月', style: TextStyle(color: Color(0xFFba9ca2))),
                       SizedBox(width: 8),
                       Text('+3%', style: TextStyle(color: Color(0xFF0bda92))),
                     ],
@@ -76,6 +77,26 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
           ),
+          // ここからグラフを追加
+          Container(
+            height: 300, // グラフの高さ
+            child: SfCartesianChart(
+              title: ChartTitle(text: '時間ごとの飲料消費量'),
+              legend: Legend(isVisible: true),
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: NumericAxis(),
+              series: <CartesianSeries>[
+                LineSeries<ChartData, String>(
+                  dataSource: getChartData(),
+                  xValueMapper: (ChartData data, _) => data.month,
+                  yValueMapper: (ChartData data, _) => data.consumption,
+                  name: '消費量',
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+          // ここまでグラフを追加
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -87,9 +108,28 @@ class DashboardScreen extends StatelessWidget {
         },
         backgroundColor: Colors.pink,
         child: const Icon(Icons.add),
-      ),  
+      ),
     );
   }
+
+  // グラフデータを取得するメソッド
+  List<ChartData> getChartData() {
+    return [
+      ChartData('1月', 20),
+      ChartData('2月', 35),
+      ChartData('3月', 40),
+      ChartData('4月', 25),
+      ChartData('5月', 50),
+    ];
+  }
+}
+
+// データクラス
+class ChartData {
+  final String month;
+  final double consumption;
+
+  ChartData(this.month, this.consumption);
 }
 
 class StatusCard extends StatelessWidget {
