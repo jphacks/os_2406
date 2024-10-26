@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 
 app = FastAPI()
+
 
 class Data(BaseModel):
     energyDrink: str

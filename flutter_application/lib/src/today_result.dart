@@ -30,13 +30,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     '日付',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
                       '2024年10月26日(Sat)',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),
@@ -44,13 +44,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     'エナジードリンク名',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
                       'Red Bull',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),                
@@ -58,13 +58,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     '飲んだ本数',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
                       '2',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18%,                      
                     ),
                   ),
                 ),
@@ -72,13 +72,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     '作業時間',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
                       '3',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),
@@ -86,13 +86,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     '前日の睡眠時間',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
-                      '8.5',
+                     '8.5',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),                
@@ -100,13 +100,13 @@ class TMP extends StatelessWidget {
                   title: Text(
                     '起床からの時間',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                       ),
                     ),
                     trailing: Text(
                       '8',
                       style: TextStyle(
-                        fontSize:22,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),                
