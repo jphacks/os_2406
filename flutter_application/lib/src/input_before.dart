@@ -36,7 +36,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF181112),
         title: const Text(
-          'Pre-Work',
+          '入力画面',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -49,7 +49,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 16),
             // Energy Drink TextField
             const Text(
-              'Energy Drink',
+              'エナジードリンク名',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -60,7 +60,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Select',
+                hintText: '選択',
                 hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
                 filled: true,
                 fillColor: const Color(0xFF39282B),
@@ -75,7 +75,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 8),
             // Wake up time TextField
             const Text(
-              'Wake up time',
+              '起床時間',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -86,7 +86,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Enter',
+                hintText: '入力',
                 hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
                 filled: true,
                 fillColor: const Color(0xFF39282B),
@@ -101,7 +101,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 8),
             // Current time TextField
             const Text(
-              'Current time',
+              '現在時刻',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -112,7 +112,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Enter',
+                hintText: '入力',
                 hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
                 filled: true,
                 fillColor: const Color(0xFF39282B),
@@ -127,7 +127,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 8),
             // Last night sleep duration TextField
             const Text(
-              'Last night sleep duration',
+              '前日の睡眠時間',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -138,7 +138,7 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Enter',
+                hintText: '入力',
                 hintStyle: const TextStyle(color: Color(0xFFBA9CA2)),
                 filled: true,
                 fillColor: const Color(0xFF39282B),
@@ -177,10 +177,10 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
                         MaterialPageRoute(builder: (context) => FocusScreen(data: inputData)),
                       );
                     },
-                    child: const Text('Start Focus Session'),
+                    child: const Text('スタート'),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 18),
               ],
             ),
           ],
