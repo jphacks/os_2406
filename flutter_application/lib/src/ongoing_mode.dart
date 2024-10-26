@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'input_eveluate.dart';
+import 'input_eveluate.dart'; // input_evaluate.dartを修正
 import 'input_before.dart';
-
 
 class FocusScreen extends StatelessWidget {
   final InputData data;
@@ -10,7 +9,6 @@ class FocusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 受け取った値をコンソールに出力する
     return Scaffold(
       backgroundColor: const Color(0xFF181112),
       appBar: AppBar(
@@ -34,7 +32,7 @@ class FocusScreen extends StatelessWidget {
                   ),
                   child: const Center(
                     child: Text(
-                      'Focus',
+                      '集中モード',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -45,20 +43,11 @@ class FocusScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  "You're in Focus mode.",
+                  "あなたは集中モードに入っています。",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "We'll be back after your session.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -76,14 +65,14 @@ class FocusScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => InputEvaluate(data: data)),
-                      );
-                    },
-                child: const Text('next'),
-                )
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => InputEvaluate(data: data)),
+                    );
+                  },
+                  child: const Text('次へ'), // ボタンのテキストを日本語に
+                ),
               ],
             ),
           ],
