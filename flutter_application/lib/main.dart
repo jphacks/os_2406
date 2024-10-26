@@ -27,6 +27,7 @@ class DashboardScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
         backgroundColor: const Color(0xFF000000),
+        elevation: 0, // 影を消す
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {}, // 戻るボタンの機能
@@ -39,64 +40,53 @@ class DashboardScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
+          Container(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFF543b40)),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '飲料摂取の相関',
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '平均',
-                    style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text('1ヶ月', style: TextStyle(color: Color(0xFFba9ca2))),
-                      SizedBox(width: 8),
-                      Text('+3%', style: TextStyle(color: Color(0xFF0bda92))),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  DrinkProgress(title: 'Red Bull', percent: 0.2),
-                  DrinkProgress(title: 'Monster', percent: 1.0),
-                  DrinkProgress(title: 'Bang', percent: 0.3),
-                  DrinkProgress(title: 'High Brew', percent: 0.1),
-                  DrinkProgress(title: 'Rockstar', percent: 0.8),
-                ],
-              ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
             ),
           ),
-          // ここからグラフを追加
+          // ここから新しい飲料摂取の相関グラフを追加
           Container(
             height: 300, // グラフの高さ
             child: SfCartesianChart(
-              title: ChartTitle(text: '時間ごとの飲料消費量'),
+              title: ChartTitle(text: '飲料別の摂取量'),
               legend: Legend(isVisible: true),
               primaryXAxis: CategoryAxis(),
               primaryYAxis: NumericAxis(),
               series: <CartesianSeries>[
-                LineSeries<ChartData, String>(
-                  dataSource: getChartData(),
-                  xValueMapper: (ChartData data, _) => data.month,
-                  yValueMapper: (ChartData data, _) => data.consumption,
-                  name: '消費量',
+                ColumnSeries<DrinkData, String>(
+                  dataSource: getDrinkData(),
+                  xValueMapper: (DrinkData data, _) => data.drink,
+                  yValueMapper: (DrinkData data, _) => data.consumption,
+                  name: '摂取量',
                   dataLabelSettings: DataLabelSettings(isVisible: true),
                 ),
               ],
             ),
           ),
-          // ここまでグラフを追加
+          // ここまで新しい飲料摂取の相関グラフを追加
+
+          // ここから集中度合いの棒グラフを追加
+          Container(
+            height: 300, // グラフの高さ
+            child: SfCartesianChart(
+              title: ChartTitle(text: '飲料別の集中度合い'),
+              legend: Legend(isVisible: true),
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: NumericAxis(),
+              series: <CartesianSeries>[
+                ColumnSeries<FocusData, String>(
+                  dataSource: getFocusData(),
+                  xValueMapper: (FocusData data, _) => data.drink,
+                  yValueMapper: (FocusData data, _) => data.score,
+                  name: '集中度合い',
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+          // ここまで集中度合いの棒グラフを追加
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -112,24 +102,42 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // グラフデータを取得するメソッド
-  List<ChartData> getChartData() {
+  // 新しい飲料摂取データを取得するメソッド
+  List<DrinkData> getDrinkData() {
     return [
-      ChartData('1月', 20),
-      ChartData('2月', 35),
-      ChartData('3月', 40),
-      ChartData('4月', 25),
-      ChartData('5月', 50),
+      DrinkData('Red Bull', 20),
+      DrinkData('Monster', 35),
+      DrinkData('Bang', 30),
+      DrinkData('High Brew', 10),
+      DrinkData('Rockstar', 50),
+    ];
+  }
+
+  // 新しい集中度合いデータを取得するメソッド
+  List<FocusData> getFocusData() {
+    return [
+      FocusData('Red Bull', 80),
+      FocusData('Monster', 70),
+      FocusData('Bang', 85),
+      FocusData('High Brew', 60),
+      FocusData('Rockstar', 75),
     ];
   }
 }
 
 // データクラス
-class ChartData {
-  final String month;
+class DrinkData {
+  final String drink;
   final double consumption;
 
-  ChartData(this.month, this.consumption);
+  DrinkData(this.drink, this.consumption);
+}
+
+class FocusData {
+  final String drink;
+  final double score;
+
+  FocusData(this.drink, this.score);
 }
 
 class StatusCard extends StatelessWidget {
