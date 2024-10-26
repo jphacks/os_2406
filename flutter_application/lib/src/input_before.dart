@@ -32,9 +32,9 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1A), // ダークグレーの背景
+      backgroundColor: const Color(0xFF121212), // ダークグレーの背景
       appBar: AppBar(
-        backgroundColor: const Color(0xFF000000), // 黒
+        backgroundColor: const Color(0xFF1F1F1F), // 上のバーの色
         title: const Text(
           '入力画面',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),

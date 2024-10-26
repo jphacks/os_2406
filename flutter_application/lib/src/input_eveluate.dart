@@ -28,7 +28,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
     } else {
       throw Exception('Unsupported platform');
     }
-    // final url = Uri.parse('http://10.0.2.2:8000/submit'); // 適切なAPIエンドポイントに変更
+
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -43,53 +43,43 @@ class _InputEvaluateState extends State<InputEvaluate> {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to submit data');
+      throw Exception('データの送信に失敗しました');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212), // 背景を黒に設定
+      appBar: AppBar(
+        title: Text(widget.data.energyDrink, style: const TextStyle(color: Colors.white)),
+        backgroundColor: const Color(0xFF1F1F1F), // AppBarの色を変更
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white), // アイコンを白に
+          onPressed: () {
+            Navigator.pop(context); // 戻るボタン
+          },
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {},
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          widget.data.energyDrink,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  'How focused were you after work?',
+                  '仕事後、どれくらい集中できましたか？', // 質問文
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white, // テキストを白に
                   ),
                 ),
               ),
               RatingRow(
-                groupValue: _focusedRating, // 選択されている値を渡す
+                groupValue: _focusedRating,
                 onChanged: (value) {
                   setState(() {
                     _focusedRating = value; // 選択された値を更新
@@ -99,15 +89,16 @@ class _InputEvaluateState extends State<InputEvaluate> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  'How sleepy are you now?',
+                  '今、どれくらい眠いですか？', // 質問文
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white, // テキストを白に
                   ),
                 ),
               ),
               RatingRow(
-                groupValue: _sleepyRating, // 選択されている値を渡す
+                groupValue: _sleepyRating,
                 onChanged: (value) {
                   setState(() {
                     _sleepyRating = value; // 選択された値を更新
@@ -117,8 +108,9 @@ class _InputEvaluateState extends State<InputEvaluate> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(84, 40),
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(const Size(84, 40)),
+                    backgroundColor: MaterialStateProperty.all(const Color(0xFF1F1F1F)), // ダークグレーのボタン
                   ),
                   onPressed: () async {
                     try {
@@ -126,7 +118,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TMP(result: 'Success', data: widget.data),
+                          builder: (context) => TMP(result: '成功', data: widget.data),
                         ),
                       );
                     } catch (e) {
@@ -134,9 +126,10 @@ class _InputEvaluateState extends State<InputEvaluate> {
                     }
                   },
                   child: const Text(
-                    'Submit',
+                    '送信',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.white, // テキストを白に
                     ),
                   ),
                 ),
@@ -163,12 +156,13 @@ class RatingRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(
           5,
-          (index) => Radio<int>(
+              (index) => Radio<int>(
             value: index + 1,
             groupValue: groupValue, // 選択されている値をここで使用
             onChanged: (value) {
               onChanged(value); // 親ウィジェットに値を渡す
             },
+            activeColor: Colors.blueAccent, // 選択された時の色を設定
           ),
         ),
       ),

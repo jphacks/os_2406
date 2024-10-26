@@ -39,9 +39,9 @@ class _FocusScreenState extends State<FocusScreen> {
     final seconds = _elapsedSeconds % 60;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212), // ダークグレーに変更
+      backgroundColor: const Color(0xFF121212), // ダークグレーに変更,背景の色
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1F1F1F),
+        backgroundColor: const Color(0xFF1F1F1F),// 上のバーの色
         title: Text(
           widget.data.sleepDuration,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
