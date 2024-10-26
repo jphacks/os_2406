@@ -64,7 +64,7 @@ class TMP extends StatelessWidget {
                     trailing: Text(
                       '2',
                       style: TextStyle(
-                        fontSize:18%,                      
+                        fontSize:18,                      
                     ),
                   ),
                 ),
