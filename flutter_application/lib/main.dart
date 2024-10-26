@@ -104,6 +104,7 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ダッシュボード'),
         centerTitle: true,
+        backgroundColor: const Color(0xFF1F1F1F),
       ),
       body: SingleChildScrollView(
         child: Column(
