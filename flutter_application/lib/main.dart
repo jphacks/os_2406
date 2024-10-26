@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart'; // Syncfusionのインポート
 import 'src/input_before.dart'; // 遷移先の画面ファイルをインポート
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -9,17 +11,47 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // APIからデータを取得する関数
+  Future<Map<String, dynamic>> fetchResult() async {
+    final url = Uri.parse('http://10.0.2.2:8000/result'); // APIエンドポイントを指定
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      // サーバーが200 OKを返した場合、JSONを解析
+      return jsonDecode(response.body);
+    } else {
+      // サーバーが200 OK以外のレスポンスを返した場合、例外をスロー
+      throw Exception('データの読み込みに失敗しました');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: const DashboardScreen(),
+      home: FutureBuilder<Map<String, dynamic>>(
+        future: fetchResult(), // APIからのデータ取得を行う
+        builder: (context, snapshot) {
+          // スナップショットの状態に応じたUIを構築
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator()); // ローディング中
+          } else if (snapshot.hasError) {
+            return Center(child: Text('エラー: ${snapshot.error}')); // エラー処理
+          } else {
+            // データが正常に取得できた場合、DashboardScreenを表示
+            return DashboardScreen(data: snapshot.data!); // データを渡す
+          }
+        },
+      ),
     );
   }
 }
 
+
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+  final Map<String, dynamic> data;
+
+  const DashboardScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +157,18 @@ class DashboardScreen extends StatelessWidget {
 
   // 飲料摂取データを取得するメソッド
   List<DrinkData> getDrinkData() {
-    return [
-      DrinkData('Red Bull', 20),
-      DrinkData('Monster', 35),
-      DrinkData('Bang', 30),
-      DrinkData('High Brew', 10),
-      DrinkData('Rockstar', 50),
-    ];
+    // データマップから飲料とその摂取量を抽出
+    List<DrinkData> drinkDataList = [];
+    
+    // dataから各飲料の摂取量を取得
+    data.forEach((key, value) {
+      // valueはリストで、最初の要素を摂取量として取得
+      if (value is List && value.isNotEmpty) {
+        drinkDataList.add(DrinkData(key, value[0]));
+      }
+    });
+
+    return drinkDataList;
   }
 
   // 集中度合いデータを取得するメソッド

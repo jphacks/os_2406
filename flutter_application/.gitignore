@@ -42,6 +42,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-./pubspec.yaml
-./pubspec.lock
-./lib/backend/data/test.csv
+/pubspec.yaml
+/pubspec.lock
+/lib/backend/data/test.csv
+/lib/backend/data/drink.csv
+/lib/backend/data/input.csv
