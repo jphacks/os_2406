@@ -102,7 +102,10 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text('統計分析画面'),
+         title: const Text(
+           '統計分析画面',
+           style: TextStyle(fontSize: 16), // フォントサイズを指定
+         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF1F1F1F),
       ),
@@ -138,7 +141,9 @@ class DashboardScreen extends StatelessWidget {
         color: Colors.black54,
       ),
       child: SfCircularChart(
-        title: ChartTitle(text: '飲料別の平均集中時間(1本あたり)'),
+        title: ChartTitle(text: '飲料別の平均集中時間(1本あたり)',
+          textStyle: TextStyle(fontSize: 11)
+        ), // タイトルのフォントサイズを変更),        
         legend: Legend(isVisible: true),
         series: <CircularSeries>[
           PieSeries<DrinkData, String>(
@@ -161,7 +166,9 @@ class DashboardScreen extends StatelessWidget {
         color: Colors.black54,
       ),
       child: SfCartesianChart(
-        title: ChartTitle(text: '飲料別の摂取本数'),
+        title: ChartTitle(text: '飲料別の摂取本数',
+          textStyle: TextStyle(fontSize: 11)
+        ), // タイトルのフォントサイズを変更),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(),
         series: <CartesianSeries>[
@@ -188,7 +195,10 @@ class DashboardScreen extends StatelessWidget {
         color: Colors.black54,
       ),
       child: SfCartesianChart(
-        title: ChartTitle(text: '睡眠時間と集中度合い'),
+        title: ChartTitle(
+          text: '睡眠時間と集中度合い',
+          textStyle: TextStyle(fontSize: 11), // タイトルのフォントサイズを変更
+        ),
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(),
         series: <CartesianSeries>[

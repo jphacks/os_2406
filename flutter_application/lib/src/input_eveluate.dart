@@ -180,4 +180,3 @@ class _InputEvaluateState extends State<InputEvaluate> {
     );
   }
 }
-
