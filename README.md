@@ -50,3 +50,7 @@
 #### ハッカソンで開発した独自機能・技術
 * 独自で開発したものの内容をこちらに記載してください
 * 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください。
+
+![Test Image 2](images/slide-2_page-0001.jpg)
+![Test Image 3](images/slide-3_page-0001.jpg)
+![Test Image 4](images/slide-4_page-0001.jpg)
