@@ -72,7 +72,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
                 child: Text(
                   '仕事後、どれくらい集中できましたか？（1: 全く集中できない、5: 非常に集中できた）',
                   style: TextStyle(
-                    fontSize: 24, // テキストサイズを小さく
+                    fontSize: 18, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -91,7 +91,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
                 child: Text(
                   '今、どれくらい眠いですか？（1: 全く眠くない、5: 非常に眠い）',
                   style: TextStyle(
-                    fontSize: 24, // テキストサイズを小さく
+                    fontSize: 18, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
