@@ -14,6 +14,45 @@ class InputEvaluate extends StatefulWidget {
   _InputEvaluateState createState() => _InputEvaluateState();
 }
 
+class RatingRow extends StatelessWidget {
+  final ValueChanged<int?> onChanged;
+  final int? groupValue;
+
+  const RatingRow({Key? key, required this.onChanged, this.groupValue}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> labels = ['1', '2', '3', '4', '5'];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          5,
+              (index) => Column(
+            children: [
+              Radio<int>(
+                value: index + 1,
+                groupValue: groupValue,
+                onChanged: (value) {
+                  onChanged(value);
+                },
+                activeColor: Colors.blueAccent,
+              ),
+              Text(
+                labels[index],
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 class _InputEvaluateState extends State<InputEvaluate> {
   int? _focusedRating; // ラジオボタンの値
   int? _sleepyRating;  // ラジオボタンの値
@@ -70,7 +109,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  '仕事後、どれくらい集中できましたか？（1: 全く集中できない、5: 非常に集中できた）',
+                  '仕事後、どれくらい集中できましたか？\n(1: 全く集中できない、5: 非常に集中できた)',
                   style: TextStyle(
                     fontSize: 18, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
@@ -89,7 +128,7 @@ class _InputEvaluateState extends State<InputEvaluate> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  '今、どれくらい眠いですか？（1: 全く眠くない、5: 非常に眠い）',
+                  '今、どれくらい眠たいですか？\n(1: 全く眠くない、5: 非常に眠い)',
                   style: TextStyle(
                     fontSize: 18, // テキストサイズを小さく
                     fontWeight: FontWeight.bold,
@@ -142,40 +181,3 @@ class _InputEvaluateState extends State<InputEvaluate> {
   }
 }
 
-class RatingRow extends StatelessWidget {
-  final ValueChanged<int?> onChanged;
-  final int? groupValue;
-
-  const RatingRow({Key? key, required this.onChanged, this.groupValue}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    List<String> labels = ['1', '2', '3', '4', '5'];
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(
-          5,
-              (index) => Column(
-            children: [
-              Radio<int>(
-                value: index + 1,
-                groupValue: groupValue,
-                onChanged: (value) {
-                  onChanged(value);
-                },
-                activeColor: Colors.blueAccent,
-              ),
-              Text(
-                labels[index],
-                style: const TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
