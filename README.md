@@ -1,6 +1,6 @@
 # EnergyMate
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
+![Test Image 1](images/slide-1_page-0001.jpg)
 
 ## 製品概要
 ### 背景
