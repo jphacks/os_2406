@@ -100,7 +100,6 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         title: const Text('統計分析画面'),
@@ -133,11 +132,10 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildDrinkScoreChart() {
     return Container(
       height: 300,
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.black54,
-        // color: Colors.black54,
       ),
       child: SfCircularChart(
         title: ChartTitle(text: '飲料別の平均集中時間(1本あたり)'),
@@ -157,7 +155,7 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildConsumptionChart() {
     return Container(
       height: 300,
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.black54,
@@ -184,7 +182,7 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildSleepFocusChart() {
     return Container(
       height: 300,
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.black54,
