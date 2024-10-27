@@ -38,7 +38,6 @@ async def submit_data(data: Data):
 async def get_averages():
     try:
         # Read the CSV file
-        print("aiueo")
         df = pd.read_csv('./data/input.csv', header=None)
 
         # Group by the first column and calculate the mean for the 4th and 5th columns

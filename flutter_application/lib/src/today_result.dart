@@ -69,8 +69,8 @@ class TMP extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                children: const <Widget>[
-                ListTile(
+                children: <Widget>[
+                const ListTile(
                   title: Text(
                     '日付',
                       style: TextStyle(
@@ -78,7 +78,7 @@ class TMP extends StatelessWidget {
                       ),
                     ),
                     trailing: Text(
-                      '2024年10月26日(Sat)',
+                      '2024年10月27日(Sat)',
                       style: TextStyle(
                         fontSize:18,                      
                     ),
@@ -86,32 +86,18 @@ class TMP extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(
-                    'エナジードリンク名',
+                    'エナジードリンク',
                       style: TextStyle(
                         fontSize: 18,
                       ),
                     ),
                     trailing: Text(
-                      'Red Bull',
+                      data.energyDrink,
                       style: TextStyle(
                         fontSize:18,                      
                     ),
                   ),
                 ),                
-                ListTile(
-                  title: Text(
-                    '飲んだ本数',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    trailing: Text(
-                      '2',
-                      style: TextStyle(
-                        fontSize:18,                      
-                    ),
-                  ),
-                ),
                 ListTile(
                   title: Text(
                     '作業時間',
@@ -134,7 +120,7 @@ class TMP extends StatelessWidget {
                       ),
                     ),
                     trailing: Text(
-                     '8.5',
+                     data.sleepDuration,
                       style: TextStyle(
                         fontSize:18,                      
                     ),
@@ -148,12 +134,40 @@ class TMP extends StatelessWidget {
                       ),
                     ),
                     trailing: Text(
-                      '8',
+                      data.wakeUpTime,
                       style: TextStyle(
                         fontSize:18,                      
                     ),
                   ),
-                ),                
+                ),   
+                ListTile(
+                  title: Text(
+                    '集中度',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    trailing: Text(
+                      "4",
+                      style: TextStyle(
+                        fontSize:18,                      
+                    ),
+                  ),
+                ),  
+                ListTile(
+                  title: Text(
+                    '睡眠度',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    trailing: Text(
+                      "2",
+                      style: TextStyle(
+                        fontSize:18,                      
+                    ),
+                  ),
+                ),               
               ],
             ),
           ),
