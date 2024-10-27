@@ -138,7 +138,7 @@ class DashboardScreen extends StatelessWidget {
         color: Colors.black54,
       ),
       child: SfCircularChart(
-        title: ChartTitle(text: '飲料別の総スコア'),
+        title: ChartTitle(text: '飲料別の平均集中時間(1本あたり)'),
         legend: Legend(isVisible: true),
         series: <CircularSeries>[
           PieSeries<DrinkData, String>(
