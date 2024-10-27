@@ -47,3 +47,5 @@ app.*.map.json
 /lib/backend/data/test.csv
 /lib/backend/data/drink.csv
 /lib/backend/data/input.csv
+
+.env
