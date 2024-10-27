@@ -102,7 +102,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text('ダッシュボード'),
+        title: const Text('統計分析画面'),
         centerTitle: true,
         backgroundColor: const Color(0xFF1F1F1F),
       ),
@@ -113,7 +113,7 @@ class DashboardScreen extends StatelessWidget {
             _buildDrinkScoreChart(),
             _buildConsumptionChart(),
             _buildSleepFocusChart(),
-          ],
+          ],          
         ),
       ),
       floatingActionButton: FloatingActionButton(
