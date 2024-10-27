@@ -63,6 +63,17 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
             const SizedBox(height: 8),
             _buildEnergyDrinkDropdown(),
             const SizedBox(height: 8),
+            // Wake up time TextField,
+            const Text(
+              '前日の睡眠時間',
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            _buildTextField(
+              hint: '入力',
+              onChanged: (value) => setState(() => lastNightSleepDuration = value),
+            ),
+            const SizedBox(height: 8),
             // Wake up time TextField
             const Text(
               '起床時間',
@@ -74,26 +85,15 @@ class _PreWorkScreenState extends State<PreWorkScreen> {
               onChanged: (value) => setState(() => wakeUpTime = value),
             ),
             const SizedBox(height: 8),
-            // Current time TextField
+            // Last night sleep duration TextField
             const Text(
-              '現在時刻',
+              '体調',
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
             _buildTextField(
               hint: '入力',
               onChanged: (value) => setState(() => currentTime = value),
-            ),
-            const SizedBox(height: 8),
-            // Last night sleep duration TextField
-            const Text(
-              '前日の睡眠時間',
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            _buildTextField(
-              hint: '入力',
-              onChanged: (value) => setState(() => lastNightSleepDuration = value),
             ),
             const SizedBox(height: 24),
             Row(
