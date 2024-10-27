@@ -254,50 +254,69 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildGeneratedExamples() {
-
     Future<String> chatting(String inputText) async {
-    var apiKey = dotenv.get('GEMINI_API_KEY');
-    if (apiKey == null) {
+      var apiKey = dotenv.get('GEMINI_API_KEY');
+      if (apiKey == null) {
         log('API Key取得失敗');
         exit(1);
-    }
-    
-    final genModel = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
-    final content = [Content.text(inputText)];
+      }
+      
+      final genModel = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+      final content = [Content.text(inputText)];
 
-    final response = await genModel.generateContent(content);
-    String resText = response.text ?? 'Gemini返答失敗';
-    return resText;
+      final response = await genModel.generateContent(content);
+      String resText = response.text ?? 'Gemini返答失敗';
+      return resText;
     }
 
     final jsonString = getJsonString();
-    return Container(
-      height: 800,
-      margin: const EdgeInsets.symmetric(vertical: 30),
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: const Color.fromARGB(136, 131, 130, 130),
-      ),
-      child: FutureBuilder<String>(
-        future: chatting('このデータを元に健康の観点から分析してみてください。keyは睡眠時間、valueは集中度となっています。: $jsonString '), // chattingメソッドを呼び出す
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('エラー: ${snapshot.error}'));
-          } else {
-            return Text(
-              snapshot.data ?? 'No examples generated',
-              style: const TextStyle(color: Colors.white),
-            );
-          }
-        },
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // タイトルを中央揃え
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10), // タイトル上部の余白
+          child: Align(
+            alignment: Alignment.center, // 中央に配置
+            child: Text(
+              'AIによる分析',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white, // 適切な色を指定
+              ),
+            ),
+          ),
+        ),
+        // 既存のContainerウィジェット
+        Container(
+          height: 800,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.all(30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: const Color.fromARGB(136, 131, 130, 130),
+          ),
+          child: FutureBuilder<String>(
+            future: chatting('このデータを元に健康の観点から分析してみてください。keyは睡眠時間、valueは集中度となっています。: $jsonString '), // chattingメソッドを呼び出す
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('エラー: ${snapshot.error}'));
+              } else {
+                return Text(
+                  snapshot.data ?? 'No examples generated',
+                  style: const TextStyle(color: Colors.white),
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
+     
   
-
   List<DrinkData> getDrinkData() {
     List<DrinkData> drinkDataList = [];
     data.forEach((key, value) {
